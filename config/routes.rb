@@ -1,4 +1,6 @@
 TwilioFizzBuzz::Application.routes.draw do
+
+  match 'dial_in' => 'calls#dial_in'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
