@@ -25,6 +25,7 @@ class CallsController < ApplicationController
 			end
 			@result = {}
 			@result['status'] = false
+			@result['error'] = e.message
 			render json: @result
 		end
 	end
