@@ -1,0 +1,32 @@
+module CalculationHelpers
+
+  	# This method is the logic to perform the fizzbuzz operation. Throws ArgumentError if input is
+	# missing or not numeric
+	def self.fizzbuzz(number)
+		raise ArgumentError, "FizzBuzz input not a digit" if !CalculationHelpers.numeric?(number) || number.nil?
+		number = number.to_i
+		response = ''
+		(1..number).each do |num|
+			divisible_by_3 = num % 3 == 0
+			divisible_by_5 = num % 5 == 0
+			if divisible_by_3 && divisible_by_5
+				value = "FizzBuzz"
+			elsif divisible_by_3
+				value = "Fizz"
+			elsif divisible_by_5
+				value = "Buzz"
+			else
+				value = num.to_s
+			end
+			response += value + " "
+		end
+		response
+	end
+
+	# This definitely belongs in another module, but the code is so small, it makes it c
+	def self.numeric?(number)
+    	return true if number =~ /^\d+$/
+    	true if Float(number) rescue false
+  	end
+
+end

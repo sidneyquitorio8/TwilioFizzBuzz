@@ -1,21 +1,31 @@
 class CallsController < ApplicationController
 	before_filter :authenticate_request, :only => :dial_in
 
+  	include CalculationHelpers #mixin allows us to use the model that contains fizzbuzz & other service methods
+
 	def index
 	end
 
+	# NEEDS ERROR HANDLING
+	# This action handles the calling of the user, then redirects the user to the original dial_in prompt
 	def dial_out
-		client = Twilio::REST::Client.new ENV['TWILIO_SID'], ENV['TWILIO_AUTH']
-		number = params[:number]
-		call = client.account.calls.create(
-		  :from => '7027896467',   # From your Twilio number
-		  :to => number,     # To any number
-		  # Fetch instructions from this URL when the call connects
-		  :url => 'http://twilio-fizz-buzz.herokuapp.com/calls/dial_in'
-		)
-		@result = {}
-		@result['status'] = true
-		render json: @result
+		begin 
+			if params[:delay]
+				Call.delay(run_at: 1.minutes.from_now).outgoing_call(params[:number])
+			else
+				outgoing_call(params[:number])
+			end
+			@result = {}
+			@result['status'] = true
+			render json: @result
+		rescue ArgumentError => e
+			response = Twilio::TwiML::Response.new do |r|
+			  r.Say 'Not a valid number'
+			end
+			@result = {}
+			@result['status'] = false
+			render json: @result
+		end
 	end
 
 	# This action handles the incoming calls made to the twilio number
@@ -36,7 +46,7 @@ class CallsController < ApplicationController
 		digit = params[:Digits]
 		# error handling to make sure digit is not nil & it exists
 		begin
-			fizzbuzz_string = fizzbuzz(digit)
+			fizzbuzz_string = CalculationHelpers.fizzbuzz(digit)
 			response = Twilio::TwiML::Response.new do |r|
 			  r.Say fizzbuzz_string
 			end
@@ -49,30 +59,7 @@ class CallsController < ApplicationController
 		end 
 	end
 
-	private 
-
-	# This method is the logic to perform the fizzbuzz operation. Throws ArgumentError if input is
-	# missing or not numeric
-	def fizzbuzz(number)
-		raise ArgumentError, "FizzBuzz input not a digit" if !numeric?(number) || number.nil?
-		number = number.to_i
-		response = ''
-		(1..number).each do |num|
-			divisible_by_3 = num % 3 == 0
-			divisible_by_5 = num % 5 == 0
-			if divisible_by_3 && divisible_by_5
-				value = "FizzBuzz"
-			elsif divisible_by_3
-				value = "Fizz"
-			elsif divisible_by_5
-				value = "Buzz"
-			else
-				value = num.to_s
-			end
-			response += value + " "
-		end
-		response
-	end
+	private
 	
 	# This action validates that the request are coming from twilio. It uses the twilio-ruby gem
 	# to validate that the twilio signature, url, and params are correctly from twilio
@@ -92,9 +79,4 @@ class CallsController < ApplicationController
 			render :xml => response.text
 		end
 	end
-
-  	def numeric?(number)
-    	return true if number =~ /^\d+$/
-    	true if Float(number) rescue false
-  	end
 end
