@@ -22,7 +22,7 @@ class CallsController < ApplicationController
 	def dial_in
 		response = Twilio::TwiML::Response.new do |r|
 		  r.Say 'Welcome to FizzBuzz'
-		  r.Gather :timeout => '10', :finishOnKey => '#', :action => 'calls/dial_in_response', :method => 'POST' do |g|
+		  r.Gather :timeout => '10', :finishOnKey => '#', :action => '/calls/dial_in_response', :method => 'POST' do |g|
 		    g.Say 'Enter a number, then press pound to continue'
 		  end
 		end
