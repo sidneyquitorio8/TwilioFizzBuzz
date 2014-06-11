@@ -1,5 +1,5 @@
 class CallsController < ApplicationController
-	before_filter :authenticate_request
+	before_filter :authenticate_request, :only => :dial_in
 
 	# This action handles the incoming calls made to the twilio number
 	def dial_in
@@ -31,11 +31,11 @@ class CallsController < ApplicationController
 		twilio_signature = request.headers['HTTP_X_TWILIO_SIGNATURE']
 		validator = Twilio::Util::RequestValidator.new(ENV['TWILIO_AUTH'])
 
-		twilio_params = params.reject {|k,v| k.downcase == k}
-		is_valid_twilio_req = validator.validate(request.url, twilio_params, twilio_signature)
+		twilio_params = params.reject {|k,v| k.downcase == k} #not sure why I have to do this, but doesn't work without it
+		valid = validator.validate(request.url, twilio_params, twilio_signature)
 		# verified = validator.validate(request.url, params, twilio_signature)
 
-		unless is_valid_twilio_req
+		unless valid
 			response = Twilio::TwiML::Response.new do |r|
 			  r.Say 'Unvalidated' + request.url + 'request'
 			  r.Hangup
