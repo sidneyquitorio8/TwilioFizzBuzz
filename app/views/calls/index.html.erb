@@ -2,7 +2,11 @@
   <div class="container">
     <h1>Hey Everyone!</h1>
     <p>This app let's you play FizzBuzz over the phone. To start either call <b>(702) 789-6467</b>, or enter 
-      the number that you would like to play on below, and FizzBuzz will call you</p>
+      the number that you would like to play on below, and FizzBuzz will call you.</p>
+    <p> <b> NOTE: </b> If you would like to use the delay function, please let me know ahead of time, as this is hosted on a free heroku server and I don't want to pay for another background worker :)</p>
+
+    <p>Also, feel free to look at the source code</p>
+    <p><a href="https://github.com/sidneyquitorio8/TwilioFizzBuzz" class="btn btn-primary btn-lg" role="button">Source Code &raquo;</a></p>
   </div>
 </div>
 
@@ -15,7 +19,7 @@
         <input type="text" class="form-control" id="inputPhoneNumber" placeholder="7028124465">
       </div>
       <div id='delayContainer' class="col-sm-3">
-        <input type="text" class="form-control" id="inputDelay" placeholder="seconds">
+        <input type="text" class="form-control" id="inputDelay" placeholder="minutes">
       </div>
       <div class="col-sm-3">
         <button id="phoneNumberSubmit" type="text" class="btn btn-primary disabled">Call This Number!</button>

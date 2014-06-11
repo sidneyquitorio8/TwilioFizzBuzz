@@ -11,7 +11,7 @@ class CallsController < ApplicationController
 		begin
 			if params[:delay]
 				raise "Delay is not a valid number" if !CalculationHelpers.numeric?(params[:delay])
-				Call.delay(run_at: params[:delay].to_i.seconds.from_now).outgoing_call(params[:number])
+				Call.delay(run_at: params[:delay].to_i.minutes.from_now).outgoing_call(params[:number])
 			else
 				Call.outgoing_call(params[:number])
 			end

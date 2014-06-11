@@ -36,15 +36,19 @@ $(document).ready(function() {
 	}
 
 	$('#phoneNumberSubmit').click(function(event) {
+		event.preventDefault();
+		data = {};
+		data["number"] = $('#inputPhoneNumber').val();
+		if ($('#inputDelay').val() != '') {
+			data["delay"] = $('#inputDelay').val()
+		}
 	    $.ajax({
 		    type: "POST",
 		    dataType: 'json',
 		    url: "/calls/dial_out",
-		    data: {
-		        number: $('#inputPhoneNumber').val()
-		    },
+		    data: data,
 		    success: function(response) {
-		    	if(response['result'] == true) {
+		    	if(response['status'] == true) {
 		    		alert("Hope you enjoyed your call");
 		    	}
 		    	else {
