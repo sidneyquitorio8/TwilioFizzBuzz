@@ -1,7 +1,7 @@
 class Call < ActiveRecord::Base
   attr_accessible :delay, :number
 
-  include CalculationHelpers #mixin allows us to use the model that contains fizzbuzz & other service methods
+ 	require 'calculation_helpers'
 
   	def self.outgoing_call(number)
   		raise ArgumentError, "Not a valid number" if !CalculationHelpers.numeric?(number) || number.nil? || number.length != 10

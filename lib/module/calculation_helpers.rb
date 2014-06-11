@@ -1,8 +1,10 @@
 module CalculationHelpers
 
+class << self
+
   	# This method is the logic to perform the fizzbuzz operation. Throws ArgumentError if input is
 	# missing or not numeric
-	def self.fizzbuzz(number)
+	def fizzbuzz(number)
 		raise ArgumentError, "FizzBuzz input not a digit" if !CalculationHelpers.numeric?(number) || number.nil?
 		number = number.to_i
 		response = ''
@@ -23,10 +25,11 @@ module CalculationHelpers
 		response
 	end
 
-	# This definitely belongs in another module, but the code is so small, it makes it c
-	def self.numeric?(number)
+	def numeric?(number)
     	return true if number =~ /^\d+$/
     	true if Float(number) rescue false
   	end
+
+end
 
 end

@@ -1,24 +1,25 @@
 class CallsController < ApplicationController
 	before_filter :authenticate_request, :only => :dial_in
 
-  	include CalculationHelpers #mixin allows us to use the model that contains fizzbuzz & other service methods
+ 	require 'calculation_helpers'
 
 	def index
 	end
 
-	# NEEDS ERROR HANDLING
 	# This action handles the calling of the user, then redirects the user to the original dial_in prompt
 	def dial_out
-		begin 
+		begin
 			if params[:delay]
-				Call.delay(run_at: 1.minutes.from_now).outgoing_call(params[:number])
+				raise "Delay is not a valid number" if !CalculationHelpers.numeric?(params[:delay])
+				Call.delay(run_at: params[:delay].to_i.seconds.from_now).outgoing_call(params[:number])
 			else
-				outgoing_call(params[:number])
+				Call.outgoing_call(params[:number])
 			end
 			@result = {}
 			@result['status'] = true
 			render json: @result
-		rescue ArgumentError => e
+		rescue Exception => e
+			puts e.message
 			response = Twilio::TwiML::Response.new do |r|
 			  r.Say 'Not a valid number'
 			end
