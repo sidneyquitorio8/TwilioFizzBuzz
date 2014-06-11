@@ -17,6 +17,7 @@ class CallsController < ApplicationController
 	# proper parameters and verifying that they are numbers
 	def dial_in_response
 		digit = params[:Digits]
+		if digit && numeric?(digit)
 		response = Twilio::TwiML::Response.new do |r|
 		  r.Say 'You have entered' + digit
 		end
@@ -43,4 +44,9 @@ class CallsController < ApplicationController
 			render :xml => response.text
 		end
 	end
+
+  	def numeric?(number)
+    	return true if number =~ /^\d+$/
+    	true if Float(number) rescue false
+  	end
 end
