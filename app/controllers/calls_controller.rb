@@ -35,7 +35,7 @@ class CallsController < ApplicationController
 
 		unless verified
 			response = Twilio::TwiML::Response.new do |r|
-			  r.Say 'Unvalidated' + twilio_signature + 'request'
+			  r.Say 'Unvalidated'  + ENV['TWILIO_AUTH'] + 'request'
 			  r.Hangup
 			end
 			render :xml => response.text
