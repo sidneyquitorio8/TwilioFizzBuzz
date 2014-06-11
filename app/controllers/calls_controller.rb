@@ -3,6 +3,7 @@ class CallsController < ApplicationController
 
  	require 'calculation_helpers'
 
+ 	# Displays the homepage
 	def index
 	end
 
@@ -59,6 +60,11 @@ class CallsController < ApplicationController
 			end
 			render :xml => response.text
 		end 
+	end
+
+	# This method handles a call replay
+	def replay_call
+
 	end
 
 	private
