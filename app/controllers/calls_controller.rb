@@ -2,14 +2,24 @@ class CallsController < ApplicationController
 	before_filter :authenticate_request, :only => :dial_in
 
 	def index
+	end
 
+	def dial_out
+		client = Twilio::REST::Client.new ENV['TWILIO_SID'], ENV['TWILIO_AUTH']
+		number = params[:number]
+		call = client.account.calls.create(
+		  :from => '7027896467',   # From your Twilio number
+		  :to => number,     # To any number
+		  # Fetch instructions from this URL when the call connects
+		  :url => 'http://twilio-fizz-buzz.herokuapp.com/calls/dial_in'
+		)
 	end
 
 	# This action handles the incoming calls made to the twilio number
 	def dial_in
 		response = Twilio::TwiML::Response.new do |r|
 		  r.Say 'Welcome to FizzBuzz'
-		  r.Gather :timeout => '10', :finishOnKey => '#', :action => '/dial_in_response', :method => 'POST' do |g|
+		  r.Gather :timeout => '10', :finishOnKey => '#', :action => 'calls/dial_in_response', :method => 'POST' do |g|
 		    g.Say 'Enter a number, then press pound to continue'
 		  end
 		end
