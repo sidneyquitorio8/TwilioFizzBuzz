@@ -17,25 +17,29 @@ class CallsController < ApplicationController
 	# proper parameters and verifying that they are numbers
 	def dial_in_response
 		digit = params[:Digits]
-		if digit && numeric?(digit)
-			fizzbuzz = fizzbuzz(digit)
+		debugger
+		# error handling to make sure digit is not nil & it exists
+		begin
+			fizzbuzz_string = fizzbuzz(digit)
 			response = Twilio::TwiML::Response.new do |r|
-			  r.Say fizzbuzz
+			  r.Say fizzbuzz_string
 			end
 			render :xml => response.text
-		else 
+		rescue ArgumentError => e
 			response = Twilio::TwiML::Response.new do |r|
 			  r.Say 'Not a valid input'
 			end
 			render :xml => response.text
-		end
+		end 
 	end
 
 	private 
 
-	# This method is the logic to perform the fizzbuzz operation
+	# This method is the logic to perform the fizzbuzz operation. Throws ArgumentError if input is
+	# missing or not numeric
 	def fizzbuzz(number)
-		debugger
+		raise ArgumentError, "FizzBuzz input not a digit" if !numeric?(number) || number.nil?
+		number = number.to_i
 		response = ''
 		(1..number).each do |num|
 			divisible_by_3 = num % 3 == 0
@@ -53,7 +57,7 @@ class CallsController < ApplicationController
 		end
 		response
 	end
-	private 
+	
 	# This action validates that the request are coming from twilio. It uses the twilio-ruby gem
 	# to validate that the twilio signature, url, and params are correctly from twilio
 	def authenticate_request
