@@ -18,8 +18,9 @@ class CallsController < ApplicationController
 	def dial_in_response
 		digit = params[:Digits]
 		if digit && numeric?(digit)
+			fizzbuzz = fizzbuzz(digit)
 			response = Twilio::TwiML::Response.new do |r|
-			  r.Say 'You have entered' + digit
+			  r.Say fizzbuzz
 			end
 			render :xml => response.text
 		else 
@@ -32,6 +33,27 @@ class CallsController < ApplicationController
 
 	private 
 
+	# This method is the logic to perform the fizzbuzz operation
+	def fizzbuzz(number)
+		debugger
+		response = ''
+		(1..number).each do |num|
+			divisible_by_3 = num % 3 == 0
+			divisible_by_5 = num % 5 == 0
+			if divisible_by_3 && divisible_by_5
+				value = "FizzBuzz"
+			elsif divisible_by_3
+				value = "Fizz"
+			elsif divisible_by_5
+				value = "Buzz"
+			else
+				value = num.to_s
+			end
+			response += value + " "
+		end
+		response
+	end
+	private 
 	# This action validates that the request are coming from twilio. It uses the twilio-ruby gem
 	# to validate that the twilio signature, url, and params are correctly from twilio
 	def authenticate_request
