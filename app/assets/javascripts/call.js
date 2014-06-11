@@ -24,7 +24,7 @@ $(document).ready(function() {
 		        number: $('#inputPhoneNumber').val()
 		    },
 		    success: function(response) {
-		    	if response.result {
+		    	if(response['result'] == true) {
 		    		alert("Hope you enjoyed your call");
 		    	}
 		    	else {
