@@ -1,7 +1,8 @@
 TwilioFizzBuzz::Application.routes.draw do
 
-  match 'dial_in' => 'calls#dial_in'
-  match 'dial_in_response' => 'calls#dial_in_response'
+  root :to => 'calls#index'
+  match 'calls/dial_in' => 'calls#dial_in', :via => [:post]
+  match 'calls/dial_in_response' => 'calls#dial_in_response', :via => [:post]
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -51,7 +52,6 @@ TwilioFizzBuzz::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
 
   # See how all your routes lay out with "rake routes"
 

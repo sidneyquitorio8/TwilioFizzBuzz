@@ -1,6 +1,10 @@
 class CallsController < ApplicationController
 	before_filter :authenticate_request, :only => :dial_in
 
+	def index
+
+	end
+
 	# This action handles the incoming calls made to the twilio number
 	def dial_in
 		response = Twilio::TwiML::Response.new do |r|
