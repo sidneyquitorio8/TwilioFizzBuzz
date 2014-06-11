@@ -64,4 +64,5 @@ TwilioFizzBuzz::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+  ENV['TWILIO_AUTH'] = 'ac1192d6d9cfec658b74298c96b92183'
 end

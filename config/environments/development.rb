@@ -34,4 +34,5 @@ TwilioFizzBuzz::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  ENV['TWILIO_AUTH'] = 'ac1192d6d9cfec658b74298c96b92183'
 end
