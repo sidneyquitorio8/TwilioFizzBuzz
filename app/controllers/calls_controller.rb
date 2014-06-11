@@ -32,7 +32,7 @@ class CallsController < ApplicationController
 		validator = Twilio::Util::RequestValidator.new(ENV['TWILIO_AUTH'])
 
 		twilio_params = params.reject {|k,v| k.downcase == k}
-		is_valid_twilio_req = twilio_validator.validate(request.url, twilio_params, twilio_sig)
+		is_valid_twilio_req = validator.validate(request.url, twilio_params, twilio_sig)
 		# verified = validator.validate(request.url, params, twilio_signature)
 
 		unless is_valid_twilio_req
