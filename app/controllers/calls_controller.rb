@@ -31,7 +31,6 @@ class CallsController < ApplicationController
 	# proper parameters and verifying that they are numbers
 	def dial_in_response
 		digit = params[:Digits]
-		debugger
 		# error handling to make sure digit is not nil & it exists
 		begin
 			fizzbuzz_string = fizzbuzz(digit)
