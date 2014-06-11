@@ -35,7 +35,7 @@ class CallsController < ApplicationController
 		is_valid_twilio_req = twilio_validator.validate(request.url, twilio_params, twilio_sig)
 		# verified = validator.validate(request.url, params, twilio_signature)
 
-		unless verified
+		unless is_valid_twilio_req
 			response = Twilio::TwiML::Response.new do |r|
 			  r.Say 'Unvalidated' + request.url +'request'
 			  r.Hangup
