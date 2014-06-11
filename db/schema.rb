@@ -11,13 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140611081110) do
+ActiveRecord::Schema.define(:version => 20140611101917) do
 
   create_table "calls", :force => true do |t|
-    t.integer  "number"
-    t.integer  "delay"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "number"
+    t.string   "delay"
   end
 
   create_table "delayed_jobs", :force => true do |t|

@@ -5,17 +5,20 @@ class CallsController < ApplicationController
 
  	# Displays the homepage
 	def index
+		@calls = Call.all
 	end
 
 	# This action handles the calling of the user, then redirects the user to the original dial_in prompt
 	def dial_out
-		begin
+		begin #error handling for params :delay & :number
 			if params[:delay]
+				# Throws an error if delay is not numeric
 				raise "Delay is not a valid number" if !CalculationHelpers.numeric?(params[:delay])
 				Call.delay(run_at: params[:delay].to_i.minutes.from_now).outgoing_call(params[:number])
 			else
-				Call.outgoing_call(params[:number])
+				Call.outgoing_call(params[:number]) #throws an error if :number is not 7 digits & not numeric
 			end
+			Call.create(number: params[:number], delay: params[:delay])
 			@result = {}
 			@result['status'] = true
 			render json: @result
@@ -64,7 +67,24 @@ class CallsController < ApplicationController
 
 	# This method handles a call replay
 	def replay_call
-
+		begin
+			raise "Incorrect parameter format" if params[:call_id].nil? || !CalculationHelpers.numeric?(params[:call_id])
+			call = Call.find(params[:call_id])
+			if call.delay.present?
+				params[:delay] = call.delay
+			end
+			params[:number] = call.number
+			dial_out
+		rescue ActiveRecord::RecordNotFound
+			@result['status'] = false
+			@result['error'] = "Call does not exist"
+			render json: @result			
+		rescue Exception => e
+			@result = {}
+			@result['status'] = false
+			@result['error'] = e.message
+			render json: @result
+		end
 	end
 
 	private

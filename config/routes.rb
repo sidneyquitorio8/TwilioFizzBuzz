@@ -4,6 +4,7 @@ TwilioFizzBuzz::Application.routes.draw do
   match 'calls/dial_in' => 'calls#dial_in', :via => [:post]
   match 'calls/dial_in_response' => 'calls#dial_in_response', :via => [:post]
   match 'calls/dial_out' => 'calls#dial_out', :via => [:post]
+  match 'calls/replay_call' => 'calls#replay_call'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

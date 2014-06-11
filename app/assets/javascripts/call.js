@@ -1,5 +1,24 @@
 $(document).ready(function() {
 
+	$('.replay_call').click(function(event) {
+		event.preventDefault();
+	    $.ajax({
+		    type: "POST",
+		    dataType: 'json',
+		    url: "/calls/replay_call",
+		    data: {call_id: $('.replay_call').data('call')},
+		    success: function(response) {
+		    	if(response['status'] == true) {
+		    		alert("Hope you enjoyed your call");
+		    	}
+		    	else {
+		    		alert("Try again");
+		    	}
+		    	location.reload();
+		    }
+	    });
+	});
+
 	$('#inputPhoneNumber').on('input', function() {
 	    validatePhoneNumber($('#inputPhoneNumber').val())
 	});

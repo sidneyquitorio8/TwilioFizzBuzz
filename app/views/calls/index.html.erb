@@ -28,6 +28,28 @@
     </div>
   </form>
 
+  <div style='padding-right: 50px;padding-left: 50px;'id="callbackContainer">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Phone #</th>
+          <th>Delay</th>
+          <th>Call Back</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @calls.each do |call| %>
+          <tr>
+            <td><%= call.number %></td>
+            <td><%= call.delay %> </td>
+            <% replay_url = "/calls/replay_call?call_id=" + call.id.to_s %> 
+            <td><a href='<%=replay_url%>' data-call='<%= call.id.to_s %>' class="btn btn-primary btn-sm replay_call" role="button">Replay Call</a> </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
   <hr>
 
   <footer>
