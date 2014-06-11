@@ -6,7 +6,7 @@ class << self
 	# missing or not numeric
 	def fizzbuzz(number)
 		raise ArgumentError, "FizzBuzz input not a digit" if !CalculationHelpers.numeric?(number) || number.nil?
-		raise "Only numbers between 0 and 200" if !number.between?(0,200)
+		raise "Only numbers between 0 and 200" if !number.to_i.between?(0,200)
 		number = number.to_i
 		response = ''
 		(1..number).each do |num|
