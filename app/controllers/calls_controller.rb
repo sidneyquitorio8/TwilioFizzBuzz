@@ -26,6 +26,7 @@ class CallsController < ApplicationController
 			response = Twilio::TwiML::Response.new do |r|
 			  r.Say 'Not a valid input'
 			end
+			render :xml => response.text
 		end
 	end
 
