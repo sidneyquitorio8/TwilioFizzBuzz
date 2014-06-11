@@ -37,7 +37,7 @@ class CallsController < ApplicationController
 
 		unless valid
 			response = Twilio::TwiML::Response.new do |r|
-			  r.Say 'Unvalidated' + request.url + 'request'
+			  r.Say 'Unvalidated request'
 			  r.Hangup
 			end
 			render :xml => response.text
