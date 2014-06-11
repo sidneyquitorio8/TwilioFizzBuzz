@@ -1,8 +1,6 @@
 class CallsController < ApplicationController
-	# before_filter :authenticate_request
+	before_filter :authenticate_request
 
-	# make sure to sanitize input
-	# make sure to handle cases where params are not from twilio
 	def dial_in
 		response = Twilio::TwiML::Response.new do |r|
 		  r.Say 'Welcome to FizzBuzz'
@@ -12,9 +10,6 @@ class CallsController < ApplicationController
 		end
 
 		render :xml => response.text
-		# render :xml => "<Response><Say>Hello Monkey</Say><Gather numDigits='1' action='/test' method='POST'>
-  #       <Say>To speak to a real monkey, press 1.  Press any other key to start over.</Say>
-  #   </Gather></Response>"
 	end
 
 	# make sure to sanitize input
@@ -24,7 +19,6 @@ class CallsController < ApplicationController
 		response = Twilio::TwiML::Response.new do |r|
 		  r.Say 'You have entered' + digit
 		end
-		# string = "<Response><Say>"+ digit  +"</Say></Response>"
 		render :xml => response.text
 	end
 
