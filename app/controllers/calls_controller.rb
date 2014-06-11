@@ -28,14 +28,14 @@ class CallsController < ApplicationController
 	# This action validates that the request are coming from twilio. It uses the twilio-ruby gem
 	# to validate that the twilio signature, url, and params are correctly from twilio
 	def authenticate_request
-		twilio_sig = request.headers['HTTP_X_TWILIO_SIGNATURE']
-		twilio_validator = Twilio::Util::RequestValidator.new(ENV['TWILIO_AUTH'])
+		twilio_signature = request.headers['HTTP_X_TWILIO_SIGNATURE']
+		validator = Twilio::Util::RequestValidator.new(ENV['TWILIO_AUTH'])
 
-		verified = twilio_validator.validate(request.url, params, twilio_sig)
+		verified = validator.validate(request.url, params, twilio_signature)
 
 		unless verified
 			response = Twilio::TwiML::Response.new do |r|
-			  r.Say 'Unvalidated request'
+			  r.Say 'Unvalidated request' + twilio_signature
 			  r.Hangup
 			end
 			render :xml => response.text
