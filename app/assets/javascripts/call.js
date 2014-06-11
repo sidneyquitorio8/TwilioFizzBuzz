@@ -24,7 +24,12 @@ $(document).ready(function() {
 		        number: $('#inputPhoneNumber').val()
 		    },
 		    success: function(response) {
-		    	alert("Hope you enjoyed your call");
+		    	if response.result {
+		    		alert("Hope you enjoyed your call");
+		    	}
+		    	else {
+		    		alert("Try again");
+		    	}
 		    }
 	    });
 	});

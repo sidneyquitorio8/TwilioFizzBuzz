@@ -13,6 +13,9 @@ class CallsController < ApplicationController
 		  # Fetch instructions from this URL when the call connects
 		  :url => 'http://twilio-fizz-buzz.herokuapp.com/calls/dial_in'
 		)
+		@result = {}
+		@result['status'] = true
+		render json: @result
 	end
 
 	# This action handles the incoming calls made to the twilio number
