@@ -62,8 +62,7 @@ class CallsController < ApplicationController
 			  r.Say 'Not a valid input'
 			end
 			render :xml => response.text
-		end
-		rescue ArgumentError => e
+		rescue Exception => e
 			response = Twilio::TwiML::Response.new do |r|
 			  r.Say 'Number should be between 0 and 200'
 			end
