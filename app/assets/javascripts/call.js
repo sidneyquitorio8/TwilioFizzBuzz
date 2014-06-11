@@ -2,11 +2,12 @@ $(document).ready(function() {
 
 	$('.replay_call').click(function(event) {
 		event.preventDefault();
+		id = $('.replay_call').data('call')
 	    $.ajax({
 		    type: "POST",
 		    dataType: 'json',
 		    url: "/calls/replay_call",
-		    data: {call_id: $('.replay_call').data('call')},
+		    data: { call_id: id },
 		    success: function(response) {
 		    	if(response['status'] == true) {
 		    		alert("Hope you enjoyed your call");
