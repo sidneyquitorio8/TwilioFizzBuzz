@@ -18,10 +18,15 @@ class CallsController < ApplicationController
 	def dial_in_response
 		digit = params[:Digits]
 		if digit && numeric?(digit)
-		response = Twilio::TwiML::Response.new do |r|
-		  r.Say 'You have entered' + digit
+			response = Twilio::TwiML::Response.new do |r|
+			  r.Say 'You have entered' + digit
+			end
+			render :xml => response.text
+		else 
+			response = Twilio::TwiML::Response.new do |r|
+			  r.Say 'Not a valid input'
+			end
 		end
-		render :xml => response.text
 	end
 
 	private 
