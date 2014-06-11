@@ -77,6 +77,7 @@ class CallsController < ApplicationController
 			params[:number] = call.number
 			dial_out
 		rescue ActiveRecord::RecordNotFound
+			@result = {}
 			@result['status'] = false
 			@result['error'] = "Call does not exist"
 			render json: @result			
