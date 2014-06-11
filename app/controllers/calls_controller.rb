@@ -14,6 +14,8 @@ class CallsController < ApplicationController
 			if params[:delay]
 				# Throws an error if delay is not numeric
 				raise "Delay is not a valid number" if !CalculationHelpers.numeric?(params[:delay])
+				# I shouldn't have to do this validation, but I am too tired to figure out why it's not working right now :)
+				raise "Not a valid number" if !CalculationHelpers.numeric?(params[:number]) || params[:number].nil? || params[:number].length != 10
 				Call.delay(run_at: params[:delay].to_i.minutes.from_now).outgoing_call(params[:number])
 			else
 				Call.outgoing_call(params[:number]) #throws an error if :number is not 7 digits & not numeric
