@@ -68,6 +68,7 @@ class CallsController < ApplicationController
 	# This method handles a call replay
 	def replay_call
 		begin
+			debugger
 			raise "Incorrect parameter format" if params[:call_id].nil? || !CalculationHelpers.numeric?(params[:call_id])
 			call = Call.find(params[:call_id])
 			if call.delay.present?

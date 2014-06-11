@@ -2,7 +2,7 @@ $(document).ready(function() {
 
 	$('.replay_call').click(function(event) {
 		event.preventDefault();
-		id = $('.replay_call').data('call')
+		id = $(this).data('call');
 	    $.ajax({
 		    type: "POST",
 		    dataType: 'json',
